@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      margin: 0;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      background: #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-left a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin-right: 20px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .nav-left a:hover {
+      color: #38bdf8;
+    }
+
+    .profile {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .profile-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #38bdf8;
+      color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: background 0.3s;
+    }
+
+    .profile-icon:hover {
+      background: #0ea5e9;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 45px;
+      background: #1e293b;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      min-width: 120px;
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 15px;
+      color: #e2e8f0;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .dropdown a:hover {
+      background: #334155;
+    }
+
+    .dropdown button {
+      background: none;
+      border: none;
+      color: #e2e8f0;
+      padding: 10px 15px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .dropdown button:hover {
+      background: #334155;
+    }
+
+    /* Dashboard content */
+    .content {
+      padding: 2rem;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="/dashboard">Home</a>
+      <a href="/myblogs">My Blogs</a>
+    </div>
+    <div class="profile" onclick="toggleDropdown()">
+        <div class="profile-icon">{{ current_user[0].upper() }}</div>
+        <div class="dropdown" id="dropdownMenu">
+            <!-- Profile link triggers JS fetch -->
+            <a href="#" onclick="loadProfile('{{ current_user }}'); return false;" style="display:block; padding:10px 15px; color:#e2e8f0; text-decoration:none;">Profile</a>
+
+            <!-- Logout button -->
+            <form action="/logout" method="POST">
+                <button type="submit" style="width:100%; margin-top:0;">Logout</button>
+            </form>
+        </div>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1>Latest Blogs</h1>
+    {% if blogs %}
+        {% for blog in blogs %}
+            <div style="background:#23252a; padding:1rem; border-radius:8px; margin-bottom:1rem;">
+                <h3 style="color:#38bdf8;">{{ blog.title }}</h3>
+                <p>{{ blog.content }}</p>
+                <p style="font-size:0.9rem; color:#94a3b8;">👤 {{ blog.author }}</p>
+        
+                {% if blog.author == current_user %}
+                <form action="{{ url_for('delete_blog', blog_index=loop.index0) }}" method="POST" style="margin-top:10px;">
+                    <button type="submit" style="background:#ef4444; border:none; padding:6px 10px; border-radius:6px; color:#fff; cursor:pointer;">
+                        Delete
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No blogs published yet. <a href="{{ url_for('myblogs') }}" style="color:#38bdf8;">Write one now!</a></p>
+    {% endif %}
+  </div>
+
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdownMenu");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    // Close dropdown if clicked outside
+    window.onclick = function(event) {
+      if (!event.target.closest('.profile')) {
+        document.getElementById("dropdownMenu").style.display = "none";
+      }
+    }
+  </script>
+
+</body>
+</html>
+
+<script>
+function loadProfile(username) {
+  fetch('/profile', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: username })
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Profile not found');
+    return response.text();
+  })
+  .then(html => {
+    // Replace the current page content
+    document.open();
+    document.write(html);
+    document.close();
+
+    // Update the URL in the address bar to /profile
+    window.history.pushState({}, '', '/profile');
+  })
+  .catch(err => alert(err));
+}
+
+// Handle back/forward buttons if needed
+window.onpopstate = function(event) {
+  location.reload();
+}
+</script>

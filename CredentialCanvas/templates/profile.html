@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .profile-card {
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+    }
+    .profile-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #38bdf8;
+      color: #0f172a;
+      font-size: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 1rem auto;
+      font-weight: bold;
+    }
+    h2, p {
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-card">
+    <div class="profile-icon">{{ username[0].upper() }}</div>
+    <h2>{{ username }}</h2>
+    <input type="hidden" id="password" value="Password: {{ password }}" readonly>
+  </div>
+</body>
+</html>

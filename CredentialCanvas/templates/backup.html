@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Backup</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body {
+      font-family: Arial;
+      background: #071421;
+      color: #e6fffa;
+      display: flex;
+      flex-direction: column; /* stack items vertically */
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem 0;
+    }
+    .box {
+      background: #022c2a;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 760px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    }
+    .muted {
+      color: #9bd3cf;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    .log {
+      text-align: left;
+      max-height: 220px;
+      overflow: auto;
+      background: #001f20;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 12px 0;
+      font-family: monospace;
+      font-size: 12px;
+      color: #bfeee9;
+    }
+    .notes {
+      margin-top: 2rem;
+      background: #062a17;
+      color: #bfffbf;
+      padding: 1.5rem;
+      border-radius: 8px;
+      font-family: monospace;
+      max-width: 760px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    }
+    a.link { color:#bfffbf; text-decoration:underline }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Backup</h2>
+    <div style="background:#062a17;color:#bfffbf;padding:12px;border-radius:6px;font-weight:bold;">
+      This page is a backup artifact used for legacy redirects and debugging.
+    </div>
+
+    <div class="muted">
+      This page contains archived notes, logs and placeholder assets. Developers: handle with care.
+    </div>
+
+    <div class="log" aria-hidden="true">
+      <!-- long fake log to add noise -->
+      [2025-10-30 09:12:01] INFO  - Starting legacy file server...<br>
+      [2025-10-30 09:12:02] DEBUG - Mount point /var/www/legacy mounted readonly<br>
+      [2025-10-30 09:12:03] WARN  - Deprecated handler "staticFallback" in use<br>
+      [2025-10-30 09:12:04] TRACE - Checking asset /img/logo.svg<br>
+      [2025-10-30 09:12:05] INFO  - No dynamic assets found<br>
+      [2025-10-30 09:12:06] DEBUG - Serving /index.html from backup store<br>
+      [2025-10-30 09:12:07] DEBUG - Placeholder cat image referenced in developer notes<br>
+      [2025-10-30 09:12:08] INFO  - Completed startup sequence<br>
+      <!-- decoy path-looking comments -->
+      <!-- HINT: some paths may begin with /tmp or /backup but not all are valid -->
+      <!-- example: /tmp/preview/cat-v2.jpg -->
+      <!-- example: /assets/old/cat_placeholder.jpg -->
+      <!-- WARNING: DO NOT UPLOAD REAL SECRETS HERE -->
+    </div>
+  </div>
+
+  <!-- Visible version of developer notes -->
+  <div class="notes">
+Notes about encoding:
+We used base64 for some inline test payloads:
+YmFzZTY0IG1vY2sgcGF5bG9hZCBsaW5lMQ==
+
+Some ascii art (for fun):
+  /\_/\  
+ ( o.o )
+  > ^ <
+
+Snippets of previously tried HTML comments:
+  PHASE1: staging-only: /staging/cat.jpg
+  PHASE2: disable until CI passes
+  PHASE3: re-enable with signed url
+
+Extra decoy text:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a fermentum arcu, quis ultricies nibh. Integer
+dapibus, odio a condimentum efficitur, lorem nisl volutpat augue, ac gravida mauris nunc sed neque. Sed vitae
+lorem a arcu faucibus porta. Quisque eget eros a mi pharetra dapibus. Proin vitae dui sed augue fermentum
+volutpat. Integer gravida lorem a orci lobortis, sed posuere arcu sodales. Suspendisse potenti. Curabitur nec
+sollicitudin quam.
+
+Dev checklist:
+[ ] remove leftover debug comments before production
+[ ] rotate any test credentials
+[ ] ensure SRI hashes are in place for third-party libs
+
+***************************************************************
+End preserved note.
+  </div>
+
+  <script>
+    // Inline helper script (kept intentionally simple).
+    // Lots of commented variants follow to inflate source size.
+    // TODO: remove debug console logs:
+    function noop(){ return null; }
+    /* legacyBootstrap:
+       if (window.legacy) {
+         legacy.init({ debug: true });
+       } */
+    // decoy payloads:
+    // var secretPaths = ["/assets/cat1.jpg","/backup/cat2.jpg","/supersecreturl/cat.jpg"];
+  </script>
+
+  <!-- TODO REMOVE BEFORE PROD: /dev/null/cat -->
+  <!-- This is a comment that looks like a path: /supersecreturl/dog.jpg -->
+  <!-- TODO: remove before prod /supersecreturl/cat-v2.jpg -->
+  <!-- TODO: remove before prod /supersecreturl/cat.jpg.bak -->
+
+  <!-- Some long HTML snippet kept as comment:
+       <div class="archived">
+         <h3>Old Backup Links</h3>
+         <ul>
+           <li>/backup/old-home.html</li>
+           <li>/backup/images/kitten.jpg</li>
+           <li>/var/tmp/cat_snapshot.jpg</li>
+         </ul>
+       </div>
+  -->
+
+</body>
+</html>

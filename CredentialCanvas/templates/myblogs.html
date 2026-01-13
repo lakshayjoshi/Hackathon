@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Blogs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      margin: 0;
+    }
+    .navbar {
+      background: #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+    }
+    .nav-left a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin-right: 20px;
+      font-weight: bold;
+    }
+    .nav-left a:hover {
+      color: #38bdf8;
+    }
+    .content {
+      margin: 2rem auto;
+      width: 80%;
+      max-width: 600px;
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 12px;
+    }
+    input, textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #334155;
+      color: #e2e8f0;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background: #38bdf8;
+      border: none;
+      border-radius: 6px;
+      color: #0f172a;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0ea5e9;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="{{ url_for('dashboard') }}">Home</a>
+      <a href="{{ url_for('myblogs') }}">My Blogs</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h2>Write a New Blog</h2>
+    <form action="{{ url_for('myblogs') }}" method="POST">
+      <input type="text" name="title" placeholder="Blog Title" required>
+      <textarea name="content" placeholder="Write your blog here..." rows="6" required></textarea>
+      <button type="submit">Publish</button>
+    </form>
+  </div>
+
+</body>
+</html>
